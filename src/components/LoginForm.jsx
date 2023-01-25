@@ -9,7 +9,6 @@ function LoginForm() {
     pass: null,
   });
 
-  const user = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispath = useDispatch();
 
