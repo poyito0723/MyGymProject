@@ -11,11 +11,20 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { BrowserRouter, Routes, Route, Link, Navigate,useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Landing from "./components/Landing";
 import Users from "./components/Users";
-import { dataUser } from "../src/data";
+import Socios from "./components/Socios";
+import Pagos from "./components/Pagos";
+import Employes from "./components/Employes";
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,33 +34,35 @@ const pages = ["Usuarios", "Clientes", "Pagos"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
   const dispath = useDispatch();
 
-
-  const login = () => {
-    <Navigate to="/asdasd"></Navigate>;
-  };
-
   const logout = () => {
-    dispath(doLogout())
-    navigate("/login")
+    dispath(doLogout());
+    navigate("/login");
   };
 
-  useEffect(function () {}, []);
+  useEffect(function () {
+    if (user.email == null) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <div>
-        <Navigation user={user} login={login} logout={logout} />
+      <Navigation user={user} logout={logout} />
 
-        <Routes>
-          <Route path="/landing" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute isAllowed={!!user} />}>
-            <Route path="/users" element={<Users />} />
-          </Route>
-        </Routes>
+      <Routes>
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<ProtectedRoute isAllowed={!!user.email} />}>
+          <Route path="/users" element={<Users />} />
+          <Route path="/employes" element={<Employes />} />
+          <Route path="/socios" element={<Socios />} />
+          <Route path="/pagos" element={<Pagos />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
@@ -161,14 +172,19 @@ function Navigation({ user, login, logout }) {
                   Usuarios
                 </Button>
               </Link>
-              <Link to="/users">
+              <Link to="/socios">
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
                   Socios
                 </Button>
               </Link>
-              <Link to="/users">
+              <Link to="/pagos">
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
                   Pagos
+                </Button>
+              </Link>
+              <Link to="/employes">
+                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                  EMPLEADOS
                 </Button>
               </Link>
             </Box>
@@ -178,7 +194,7 @@ function Navigation({ user, login, logout }) {
             ></Box>
           )}
 
-          {user ? (
+          {user.email !== null ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -201,11 +217,9 @@ function Navigation({ user, login, logout }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-               
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Cerrar Sesión</Typography>
-                  </MenuItem>
-              
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Cerrar Sesión</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (
