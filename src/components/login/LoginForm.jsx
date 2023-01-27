@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { doLogin } from "../services/authSlice";
+import { doLogin } from "../../services/authSlice";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
