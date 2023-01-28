@@ -1,15 +1,18 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import Landing from "./components/Landing";
-import Users from "./components/users/Users";
-import Socios from "./components/Socios";
-import Pagos from "./components/Pagos";
-import Employes from "./components/Employes";
 import { useEffect } from "react";
-import Login from "./components/login/Login";
 import { useDispatch, useSelector } from "react-redux";
-import { doLogout } from "./services/authSlice";
+import { doLogout } from "./services/auth/authSlice";
 import Navigation from "./components/Navigation";
+import {
+  PagosPage,
+  SociosPage,
+  EmployesPage,
+  LandingPage,
+  LoginPage,
+  AddUserPage,
+  UsersPage,
+} from "./pages/index";
 
 function App() {
   const navigate = useNavigate();
@@ -28,16 +31,17 @@ function App() {
   }, []);
 
   return (
-    <div >
+    <div>
       <Navigation user={user} logout={logout} />
-      <Routes  >
-        <Route path="/landing" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute isAllowed={!!user.email} />}>
-          <Route path="/users" element={<Users />} />
-          <Route path="/employes" element={<Employes />} />
-          <Route path="/socios" element={<Socios />} />
-          <Route path="/pagos" element={<Pagos />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/employes" element={<EmployesPage />} />
+          <Route path="/socios" element={<SociosPage />} />
+          <Route path="/pagos" element={<PagosPage />} />
+          <Route path="/adduser" element={<AddUserPage />} />
+          <Route path="/landing" element={<LandingPage />} />
         </Route>
       </Routes>
     </div>
