@@ -22,13 +22,14 @@ function Users() {
       <h1 className="text-lg font-medium pb-2">LISTA DE USUARIOS</h1>
       <Link>
         <Button
-          variant="contained"
+          variant="outlined"
           color="success"
           onClick={() => setShowLogin(true)}
         >
           AGREGAR USUARIO
         </Button>
       </Link>
+      
       <ModalComponent show={showLogin} close={() => setShowLogin(false)} />
 
       <div className="py-4">
