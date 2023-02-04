@@ -57,7 +57,7 @@ function Navigation({ user, login, logout }) {
             GYMSYNC
           </Typography>
 
-          {user.email !== null ? (
+          {user.usuario !== null ? (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -139,7 +139,7 @@ function Navigation({ user, login, logout }) {
           >
             LOGO
           </Typography>
-          {user.email !== null ? (
+          {user.usuario !== null ? (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Link to="/users">
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
@@ -168,7 +168,7 @@ function Navigation({ user, login, logout }) {
             ></Box>
           )}
 
-          {user.email !== null ? (
+          {user.usuario !== null ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

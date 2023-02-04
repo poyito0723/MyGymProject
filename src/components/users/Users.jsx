@@ -1,4 +1,3 @@
-import { users } from "../../data";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,12 +9,22 @@ import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import ModalComponent from "../Modal";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersAPI } from "../../services/users/usersSlice";
 
 function Users() {
   const navigate = useNavigate();
+  const dispath = useDispatch();
+
+  const users = useSelector((state) => state.users);
   const [showLogin, setShowLogin] = useState(false);
 
-  useEffect(function () {}, []);
+  useEffect(() => {
+    const fetDataUsers = async () => {
+      await dispath(getUsersAPI());
+    };
+    fetDataUsers();
+  }, []);
 
   return (
     <div className="p-4">
@@ -29,55 +38,57 @@ function Users() {
           AGREGAR USUARIO
         </Button>
       </Link>
-      
+
       <ModalComponent show={showLogin} close={() => setShowLogin(false)} />
+      {users !== undefined ? (
+        <div className="py-4">
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>NOMBRE COMPLETO</TableCell>
+                  <TableCell align="center">USUARIO</TableCell>
+                  <TableCell align="center">TIPO DE USUARIO</TableCell>
 
-      <div className="py-4">
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>NOMBRE COMPLETO</TableCell>
-                <TableCell align="center">USUARIO</TableCell>
-                <TableCell align="center">TIPO DE USUARIO</TableCell>
-
-                <TableCell align="center">ACCIONES</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((usuario) => (
-                <TableRow
-                  key={usuario.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {usuario.nombreCompleto}
-                  </TableCell>
-                  <TableCell align="center">{usuario.usuario}</TableCell>
-                  <TableCell align="center">{usuario.type}</TableCell>
-
-                  <TableCell align="center">
-                    <Button
-                      style={{ margin: 10 }}
-                      variant="outlined"
-                      onClick={() => console.log(usuario.id)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      color="error"
-                      variant="outlined"
-                      onClick={() => console.log(usuario.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </TableCell>
+                  <TableCell align="center">ACCIONES</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </TableHead>
+              <TableBody>
+                {users.users.map((usuario) => (
+                  <TableRow
+                    key={usuario.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {usuario.nombreCompleto}
+                    </TableCell>
+                    <TableCell align="center">{usuario.usuario}</TableCell>
+                    <TableCell align="center">{usuario.tipo}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        style={{ margin: 10 }}
+                        variant="outlined"
+                        onClick={() => console.log(usuario.id)}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        onClick={() => console.log(usuario.id)}
+                      >
+                        Eliminar
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

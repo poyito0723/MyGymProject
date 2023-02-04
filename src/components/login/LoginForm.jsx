@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { doLogin } from "../../services/auth/authSlice";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { doLoginAxios } from "../../services/auth/authSlice";
 
 function LoginForm() {
   const [userToLogin, setuserToLogin] = useState({
-    email: null,
-    pass: null,
+    usuario: null,
+    password: null,
   });
 
   const navigate = useNavigate();
@@ -19,9 +20,9 @@ function LoginForm() {
     });
   };
 
-  const handleOnClickLoging = (e) => {
-    if (userToLogin.email !== null) {
-      dispath(doLogin(userToLogin));
+  const handleOnClickLoging = async (e) => {
+    if (userToLogin.usuario !== null) {
+     await dispath(doLoginAxios(userToLogin));
       navigate("/landing");
     } else {
       alert("ingresa datos correctos");
@@ -38,7 +39,7 @@ function LoginForm() {
         <div>
           <label className="text-lg font-medium ">Correo</label>
           <input
-            name="email"
+            name="usuario"
             onChange={handleOnChange}
             placeholder="Ingresa tu Correo"
             className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
@@ -48,7 +49,7 @@ function LoginForm() {
         <div>
           <label>Contraseña</label>
           <input
-            name="pass"
+            name="password"
             onChange={handleOnChange}
             placeholder="Ingresa tu Contraseña"
             className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"

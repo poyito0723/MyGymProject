@@ -25,7 +25,7 @@ function App() {
   };
 
   useEffect(function () {
-    if (user.email == null) {
+    if (user.usuario == null) {
       navigate("/login");
     }
   }, []);
@@ -35,7 +35,7 @@ function App() {
       <Navigation user={user} logout={logout} />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route element={<ProtectedRoute isAllowed={!!user.email} />}>
+        <Route element={<ProtectedRoute isAllowed={!!user.usuario} />}>
           <Route path="/users" element={<UsersPage />} />
           <Route path="/employes" element={<EmployesPage />} />
           <Route path="/socios" element={<SociosPage />} />
